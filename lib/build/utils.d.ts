@@ -4,8 +4,8 @@ export declare function normaliseURLDomainOrThrowError(input: string): string;
 export declare function normaliseURLPathOrThrowError(input: string): string;
 export declare function normaliseCookieDomainOrThrowError(cookieDomain: string): string;
 export declare function validateAndNormaliseInputOrThrowError(options: InputType): NormalisedInputType;
-export declare function setToken(tokenType: TokenType, value: string): Promise<void>;
-export declare function storeInStorage(name: string, value: string, expiry: number): Promise<void>;
+export declare function setToken(tokenType: TokenType, value: string): Promise<boolean | null | undefined>;
+export declare function storeInStorage(name: string, value: string, expiry: number): Promise<boolean | null | undefined>;
 /**
  * Last access token update is used to record the last time the access token had changed.
  * This is used to synchronise parallel calls to the refresh API to prevent multiple calls

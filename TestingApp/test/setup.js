@@ -13,7 +13,6 @@
  * under the License.
  */
 
-import MockStorage from "./asyncStorage";
 import MockInteractionManager from "./interactionManager";
 
 jest.mock("react-native", () => {

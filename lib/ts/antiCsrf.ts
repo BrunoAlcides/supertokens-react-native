@@ -13,9 +13,9 @@
  * under the License.
  */
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthHttpRequest from "./fetch";
 import { getLocalSessionState } from "./utils";
+import { Storage } from "./storage";
 
 const TOKEN_KEY = "supertokens-rn-anticsrf-key";
 const ANTI_CSRF_NAME = "sAntiCsrf";
@@ -36,9 +36,9 @@ export default class AntiCSRF {
         }
 
         async function getAntiCSRFFromStorage(): Promise<string | null> {
-            let fromStorage = await AsyncStorage.getItem(TOKEN_KEY);
+            let fromStorage = await Storage.getStringAsync(TOKEN_KEY);
 
-            if (fromStorage !== null) {
+            if (fromStorage !== null && fromStorage !== undefined) {
                 return fromStorage;
             }
 
@@ -112,7 +112,7 @@ export default class AntiCSRF {
             if (antiCSRFToken === undefined) {
                 await AntiCSRF.removeToken();
             } else {
-                await AsyncStorage.setItem(TOKEN_KEY, antiCSRFToken);
+                await Storage.setStringAsync(TOKEN_KEY, antiCSRFToken);
             }
         }
 
@@ -134,6 +134,6 @@ export default class AntiCSRF {
 
     static async removeToken() {
         AntiCSRF.tokenInfo = undefined;
-        await AsyncStorage.removeItem(TOKEN_KEY);
+        await Storage.removeItem(TOKEN_KEY);
     }
 }

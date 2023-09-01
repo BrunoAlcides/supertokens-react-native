@@ -12,4 +12,5 @@
         "skipLibCheck": true
     },
     "compileOnSave": true,
+    "exclude": ["../node_modules"]
 }

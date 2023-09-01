@@ -1,10 +1,10 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { URL } from "react-native-url-polyfill";
 import AuthHttpRequest from "./fetch";
 import FrontToken from "./frontToken";
 import NormalisedURLDomain from "./normalisedURLDomain";
 import NormalisedURLPath from "./normalisedURLPath";
 import { InputType, NormalisedInputType, EventHandler, RecipeInterface, TokenType } from "./types";
+import { Storage } from "./storage";
 
 const LAST_ACCESS_TOKEN_UPDATE = "st-last-access-token-update";
 const REFRESH_TOKEN_NAME = "st-refresh-token";
@@ -144,10 +144,10 @@ export function setToken(tokenType: TokenType, value: string) {
 export async function storeInStorage(name: string, value: string, expiry: number) {
     const storageKey = `st-storage-item-${name}`;
     if (value === "") {
-        return await AsyncStorage.removeItem(storageKey);
+        return await Storage.removeItem(storageKey);
     }
 
-    return await AsyncStorage.setItem(storageKey, value);
+    return await Storage.setStringAsync(storageKey, value);
 }
 
 /**
@@ -175,7 +175,7 @@ export function getStorageNameForToken(tokenType: TokenType) {
 }
 
 async function getFromStorage(name: string) {
-    const itemInStorage = await AsyncStorage.getItem(`st-storage-item-${name}`);
+    const itemInStorage = await Storage.getStringAsync(`st-storage-item-${name}`);
 
     if (itemInStorage === null) {
         return undefined;

@@ -1,7 +1,7 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthHttpRequest from "./fetch";
 import { decode as atob } from "base-64";
 import { getLocalSessionState, saveLastAccessTokenUpdate, setToken } from "./utils";
+import { Storage } from "./storage";
 
 const FRONT_TOKEN_KEY = "supertokens-rn-front-token-key";
 const FRONT_TOKEN_NAME = "sFrontToken";
@@ -14,9 +14,9 @@ export default class FrontToken {
     private constructor() {}
 
     private static async getFrontTokenFromStorage(): Promise<string | null> {
-        let frontTokenFromStorage = await AsyncStorage.getItem(FRONT_TOKEN_KEY);
+        let frontTokenFromStorage = await Storage.getStringAsync(FRONT_TOKEN_KEY);
 
-        if (frontTokenFromStorage !== null) {
+        if (frontTokenFromStorage !== null && frontTokenFromStorage !== undefined) {
             let value = "; " + frontTokenFromStorage;
 
             if (value.includes("; " + FRONT_TOKEN_NAME + "=")) {
@@ -88,9 +88,9 @@ export default class FrontToken {
     private static async setFrontToken(frontToken: string | undefined) {
         async function setFrontTokenToStorage(frontToken: string | undefined) {
             if (frontToken === undefined) {
-                await AsyncStorage.removeItem(FRONT_TOKEN_KEY);
+                await Storage.removeItem(FRONT_TOKEN_KEY);
             } else {
-                await AsyncStorage.setItem(FRONT_TOKEN_KEY, frontToken);
+                await Storage.setStringAsync(FRONT_TOKEN_KEY, frontToken);
             }
         }
 
